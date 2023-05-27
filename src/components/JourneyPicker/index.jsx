@@ -40,6 +40,33 @@ export const JourneyPicker = ({ onJourneyChange }) => {
   const [date, setDate] = useState('');
   const [cities, setCities] = useState([]);
   const [dates, setDates] = useState([]);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // console.log('Odesílám formulář s cestou');
+    // console.log('Odkud:', fromCity);
+    // console.log('Kam:', toCity);
+    // console.log('Datum:', date);
+
+    fetch(
+      `https://apps.kodim.cz/daweb/leviexpress/api/journey?fromCity=${fromCity}&toCity=${toCity}&date=${date}`,
+    )
+      .then((response) => response.json())
+      .then((data) => onJourneyChange(data.results));
+  };
+
+  useEffect(() => {
+    fetch('https://apps.kodim.cz/daweb/leviexpress/api/cities')
+      .then((response) => response.json())
+      .then((data) => setCities(data.results));
+  }, []);
+
+  useEffect(() => {
+    fetch('https://apps.kodim.cz/daweb/leviexpress/api/dates').then(
+      (response) => response.json().then((data) => setDates(data.results)),
+    );
+  }, []);
+
   // useEffect(() => {
   //   // Simulace načítání seznamu měst
   //   setTimeout(() => {
@@ -50,30 +77,25 @@ export const JourneyPicker = ({ onJourneyChange }) => {
   //   }, 1000);
   // }, []);
 
-  useEffect(() => {
-    fetch('https://apps.kodim.cz/daweb/leviexpress/api/cities')
-      .then((response) => response.json())
-      .then((data) => setCities(data.results));
-  }, []);
+  // const isSubmitDisabled = !(fromCity && toCity && date);
 
-  useEffect(() => {
-    fetch('https://apps.kodim.cz/daweb/leviexpress/api/dates')
-      .then((response) => response.json())
-      .then((data) => setDates(data.results));
-  }, []);
+  let submitDisabled = false;
+  if (fromCity === '' || toCity === '' || date === '') {
+    submitDisabled = true;
+  }
 
-  const handleSubmit = (event) => {
-    event.preventDefault(); // Zabrání odeslání formuláře prohlížečem
-    console.log('Odesílám formulář s cestou');
-    console.log('Odkud:', fromCity);
-    console.log('Kam:', toCity);
-    console.log('Datum:', date);
-  };
+  if (fromCity === toCity) {
+    submitDisabled = true;
+  }
+
   return (
     <div className="journey-picker container">
       <h2 className="journey-picker__head">Kam chcete jet?</h2>
       <div className="journey-picker__body">
-        <form className="journey-picker__form" onSubmit={handleSubmit}>
+        <form
+          className="journey-picker__form"
+          onSubmit={(e) => handleSubmit(e)}
+        >
           <label>
             <div className="journey-picker__label">Odkud:</div>
             <select
@@ -97,7 +119,7 @@ export const JourneyPicker = ({ onJourneyChange }) => {
             </select>
           </label>
           <div className="journey-picker__controls">
-            <button className="btn" type="submit">
+            <button className="btn" type="submit" disabled={submitDisabled}>
               Vyhledat spoj
             </button>
           </div>
