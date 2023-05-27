@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import mapImage from './img/map.svg';
 import './style.css';
 
 export const JourneyPicker = ({ onJourneyChange }) => (
@@ -41,10 +40,7 @@ export const JourneyPicker = ({ onJourneyChange }) => (
           </select>
         </label>
         <div className="journey-picker__controls">
-          <button 
-            className="btn" 
-            type="submit"
-          > 
+          <button className="btn" type="submit">
             Vyhledat spoj
           </button>
         </div>
