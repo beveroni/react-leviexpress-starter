@@ -1,11 +1,12 @@
 import React from 'react';
 import './style.css';
 
-export const SelectedSeat = ({ number }) => {
+export const Seat = ({ number, isOccupied }) => {
+  const seatClass = isOccupied ? 'seat--occupied' : 'seat--available';
+
   return (
-    <div className="selected-seat container">
-      <h2>Vaše sedadlo</h2>
-      <svg className="seat seat--auto" viewBox="0 0 100 100" role="button">
+    <div className="seat-row">
+      <svg className={`seat ${seatClass}`} viewBox="0 0 100 100" role="button">
         <rect
           className="seat__rect"
           width="80"
