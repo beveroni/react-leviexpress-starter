@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.css';
 
-export const Seat = ({ number, isOccupied }) => {
+export const Seat = ({ number, isOccupied, isSelected }) => {
   const seatClass = isOccupied ? 'seat--occupied' : 'seat--available';
 
   return (

@@ -2,25 +2,10 @@ import React from 'react';
 // import './style.css';
 import { Seat } from '../Seat';
 
-// const testRow = [
-//   {
-//     number: 33,
-//     isOccupied: false,
-//   },
-//   {
-//     number: 29,
-//     isOccupied: true,
-//   },
-//   {
-//     number: 25,
-//     isOccupied: false,
-//   },
-// ];
-
-// export const SeatRow = ({ row }) => {
+// export const SeatRow = ({ seats }) => {
 //   return (
-//     <div className="seat-row">
-//       {row.map((seat) => (
+//     <div className="seat-row" style={{ display: 'flex' }}>
+//       {seats.map((seat) => (
 //         <Seat
 //           key={seat.number}
 //           number={seat.number}
@@ -30,15 +15,29 @@ import { Seat } from '../Seat';
 //     </div>
 //   );
 // };
-
-export const SeatRow = ({ seats }) => {
+// export const SeatRow = ({ seats, journeyId }) => {
+//   return (
+//     <div className="seat-row" style={{ display: 'flex' }}>
+//       {seats.map((seat, index) => (
+//         <Seat
+//           key={seat.number}
+//           number={seat.number}
+//           isOccupied={seat.isOccupied}
+//           isSelected={seat.number === journeyId}
+//         />
+//       ))}
+//     </div>
+//   );
+// };
+export const SeatRow = ({ seats, journeyId, rowSelectedSeat }) => {
   return (
     <div className="seat-row" style={{ display: 'flex' }}>
-      {seats.map((seat) => (
+      {seats.map((seat, index) => (
         <Seat
           key={seat.number}
           number={seat.number}
           isOccupied={seat.isOccupied}
+          isSelected={seat.number === rowSelectedSeat}
         />
       ))}
     </div>
